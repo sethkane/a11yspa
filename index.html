@@ -1,0 +1,183 @@
+
+<!doctype html>
+<!--[if lt IE 7 ]> <html class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie9 html5 en"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="html5 en" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Single Page Application - File Transfer</title>
+        <link rel="stylesheet" type="text/css" href="css/foundation.min.css">
+        <link rel="stylesheet" type="text/css" href="css/docs.css">
+        <link rel="stylesheet" type="text/css" href="css/circle.css">
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
+    </head>
+<body class="main">
+<main>
+
+    <form>
+    <div class="row">
+        <div class="columns large-12"><h1>Updated Single Page Application</h1></div>
+    </div>
+    <div class="row">
+        <div class="columns large-6">
+            <h2 id="dropzone">Drag and Drop Files</h2>
+            <div class="dropzone" tabindex="-1" aria-labelledby="dropzone">
+                <input type="file" name="file" id="file" class="browse" multiple="multiple" aria-label="Upload Images">
+            </div>
+        </div>
+        <div class="columns large-6">
+
+             <div class="status" tabindex="-1" aria-labelledby="uploadStats">
+                 <h2 id="uploadStats">Upload Details</h2>
+                 <ul>
+                    <li>Combined File Size: <span class="totalBytes">0</span></li>
+                    <li>Files Attached: <span class="fileCount">0</span></li>
+                    <li>Files Not Attached: <span class="fileErrors">0</span></li>
+                </ul>
+            </div>
+
+            <div class="attached" tabindex="-1" role="group" aria-labelledby="attachedFiles">
+                <h2 id="attachedFiles">Attached Files</h2>
+                <ul></ul>
+            </div>
+
+            <div class="trash" tabindex="-1" role="group" aria-labelledby="notAttachedFiles">
+                <h2 id="notAttachedFiles">Not Attached Files</h2> 
+                <ul></ul>
+            </div>
+            
+        </div>
+
+    </div>
+
+    <div class="row" style="display: none;" >
+        <div class="columns large-offset-6 large-6">
+              <div class="metadata" tabindex="-1" role="group" aria-labelledby="metaData">
+                <h3 id="metaData">Add Meta Data</h3>
+                <input type="file" id="assocatedDocument" name="assocatedDocument">
+                <input type="text" value="" name="Meta_Data_1" placeholder="Meta Data 1" />
+                <input type="text" value="" name="Meta_Data_2" placeholder="Meta Data 2" />
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="results columns large-offset-6 large-6" tabindex="-1" aria-labelledby="uploadCompleted">
+            <h2 id="uploadCompleted">Upload Completed</h2>
+            <ul>
+                <li>Files Uploaded: <span class="uploadCount">0</span></li>
+                <li>Errors: <span class="uploadErrors">0</span></li>
+                <li>Upload Time: <span class="uploadTime">0</span></li>
+            </ul>
+            <button class="tiny uploadNew">Upload New</button>
+            <button class="tiny uploadAgain">Upload with Same Data</button>
+            <button class="tiny uploadRetry disabled" disabled="true">Retry</button>
+        </div>
+    </div>
+
+    <div class="row actions">
+        <div class="columns small-offset-6 small-6 text-right end">
+            <button class="button alert cancelFiles">Cancel</button>
+            <input type="submit" class="button uploadFiles" value="Complete Upload">
+        </div>
+    </div>
+    </form>
+</main>
+
+<div class="live visually-hidden" aria-live="polite" aria-atomic="true"></div>
+
+    <script type="text/template" id="file-template">
+            <div class="columns small-7">
+                <%= name %>
+            </div>
+            <div class="columns text-center small-2">
+                <%= size %>
+            </div>
+            <div class="columns small-1 text-center progress">
+                <div class="circularProgress">
+                    <div class="circularProgress__overlay"></div>
+                </div>
+                 
+            </div>
+            <div class="columns small-2 action">
+                <button class="button tiny alert removeFile" aria-label="Remove <%= name %>">x</button>
+            </div>
+    </script>
+
+    <script type="text/template" id="trash-template">
+
+            <div class="columns small-6">
+                <%= name %>
+            </div>
+            <div class="columns small-2">
+                <%= size %>
+            </div>
+            <div class="columns small-4">
+                <%= error %> 
+            </div>
+
+    </script>
+
+    <script src="js/globals.js"></script>
+    <script src="js/attached.collection.js"></script>
+    <script src="js/trash.collection.js"></script>
+    <script src="js/file.model.js"></script>
+    <script src="js/main.model.js"></script>
+    <script src="js/main.view.js"></script>
+    <script src="js/attached.view.js"></script>
+    <script src="js/trash.view.js"></script>
+    <script src="js/metadata.view.js"></script>
+    <script src="js/actions.view.js"></script>
+    <script src="js/results.view.js"></script>
+    <script src="js/file.view.js"></script>
+
+    <script>
+        var attachedCollection = new starterkit.collections.attached();
+        var trashCollection = new starterkit.collections.trash();
+        var attachedView = new starterkit.views.attached({
+            collection: attachedCollection
+        });
+        var trashView = new starterkit.views.trash({
+            collection: trashCollection
+        });
+        var mainView = new starterkit.views.main({
+            model: new starterkit.models.main()
+        });
+        var metadata = new starterkit.views.metadata({});
+        var actions = new starterkit.views.actions({});
+        var results = new starterkit.views.results({});
+
+
+
+        var checkChangesEnabled = false;
+        window.onbeforeunload = confirmExit;
+
+        function confirmExit(){
+          if(checkChangesEnabled){
+            event.returnValue = "Your upload will be reset and all will be lost!";
+            disableCheck();
+          }
+        }
+
+        function disableCheck(){
+          checkChangesEnabled = false;
+          setTimeout("enableCheck()", "1000");
+        }
+
+        function enableCheck(){
+           checkChangesEnabled = true;
+        }
+
+    </script>
+    <!-- <script src="js/loader.js"></script> -->
+
+</body>
+</html>

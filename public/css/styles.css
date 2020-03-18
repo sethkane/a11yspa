@@ -1,0 +1,128 @@
+html{
+    height: 100%;
+}
+body{
+    background: #fff;
+    color: #000;
+    font-family: 'Abel';
+    font-size: 12px;
+    height: 100%;
+    padding: 20px;
+}
+h1,h2{
+    margin: 0;
+    padding: 0;
+}
+h1{
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #000;
+}
+h2{
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px dotted #ccc; 
+}
+.visually-hidden {
+    top: 0;
+    border: 0;
+    padding: 0;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    position: absolute;
+    clip: rect(0 0 0 0);
+}
+
+
+.actions, .metadata, .results{
+    display: none;
+}
+
+
+.dropzone { 
+    border: 10px dashed #ccc;  
+    height: 350px; 
+    font-weight: bold; 
+    margin-bottom: 20px;
+    padding-top: 125px;
+    padding-left: 30%;
+}
+.dropzone.hover { 
+    border: 10px dashed #0c0; 
+    color: #ccc;
+}
+.attached ul, .trash ul{
+    list-style: none;
+    font-size: 12px;
+    margin: 0;
+    margin-bottom: 20px;
+    padding: 0;
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: 250px;
+
+}
+.attached h2, .trash h2{
+    font-size: 18px;
+}
+.attached li, .trash li {
+    padding: 5px 0;
+    margin-bottom: 1px;
+}
+
+.attached li.row, .trash li.row{
+    margin: 0;
+}
+.attached li:nth-child(odd), .trash li:nth-child(odd){
+    background: #e7e7e7;
+}
+.attached li .action, .attached li .progress {
+    border: 0px;
+    text-align: right;
+    background: transparent;
+}
+.attached li h2, .trash li h2{
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+}
+.attached img{
+    max-height: 35px;
+}
+
+.attached .progress .circularProgress{
+    display: none;
+}
+
+.attached .button{
+    margin: 0;
+}
+.attached li.false{
+    background: #CC3300;
+    color: #fff;
+}
+.attached li.false h2{
+    color: #fff;
+}
+.attached .false div{
+    border-color: #fff;
+}
+
+.attached i {
+    height: 26px;
+    width: 24px;
+    display: inline-block;
+    background: url(https://365webresources.com/wp-content/uploads/2014/03/Filetype-Icons.png ) -110px -91px no-repeat;
+}
+.attached i.xls, .attached i.xlsx{
+    background-position: -160px -91px;
+}
+.attached i.pdf{
+    background-position: -110px -166px;
+}
+.attached i.jpg, .attached i.gif{
+    background-position: -260px -91px;
+}
+
