@@ -3,6 +3,7 @@ var multer          =       require('multer');
 var fs              =       require('fs');
 var app             =       express();
 var upload          =       multer();
+var dir = './public/files/';
 var err = false;
 
 app.use(express.static('public'));
@@ -11,16 +12,21 @@ app.get('/',function(req,res){
       res.sendFile(__dirname + "/index.html");
 });
 
+if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+}
 
 var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/files/')
+  },
   filename: function (req, file, cb) {
     cb(null, file.originalname )
   }
 })
  
 var upload = multer({ 
-    storage: storage,
-    dest: './public/files/'
+    storage: storage
   })
 
 app.post('/post', upload.any(), function (req, res, next) {
