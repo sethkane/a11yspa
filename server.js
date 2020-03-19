@@ -6,21 +6,22 @@ var upload          =       multer();
 var err = false;
 
 app.use(express.static('public'));
+
 app.get('/',function(req,res){
       res.sendFile(__dirname + "/index.html");
 });
 
 
 var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './public/files/')
-  },
   filename: function (req, file, cb) {
     cb(null, file.originalname )
   }
 })
  
-var upload = multer({ storage: storage })
+var upload = multer({ 
+    storage: storage,
+    dest: './public/files/'
+  })
 
 app.post('/post', upload.any(), function (req, res, next) {
   
