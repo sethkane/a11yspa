@@ -20,6 +20,7 @@
         },
         viewImage: function(){
             window.open('/files/' + this.model.get('name') );
+            return false;
         },
         uploadFile: function(){
 
