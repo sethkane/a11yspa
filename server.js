@@ -22,7 +22,7 @@ var storage = multer.diskStorage({
  
 var upload = multer({ storage: storage })
 
-app.post('/post', upload.single('file'), function (req, res, next) {
+app.post('/post', upload.any(), function (req, res, next) {
   
     var json;
     var size = req.headers['content-length'];
