@@ -5,23 +5,27 @@ var app             =       express();
 var upload          =       multer();
 var err = false;
 
-var upload = multer({ dest: './public/files/'});
-
 app.use(express.static('public'));
-
 app.get('/',function(req,res){
       res.sendFile(__dirname + "/index.html");
 });
 
 
-app.post('/post', upload.any(), function (req, res, next) {
-  
-  console.log(req.files)
-  console.log(req.body);
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/files/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname )
+  }
+})
+ 
+var upload = multer({ storage: storage })
 
+app.post('/post', upload.single('file'), function (req, res, next) {
+  
     var json;
     var size = req.headers['content-length'];
-
 
       if(err){
         res.writeHead(500, {"Content-Type": "text/html"});
